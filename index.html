@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RS3 Complete Bank Tab Blueprint</title>
+    <title>RS3 Ultimate Row Organizer</title>
     <style>
         body {
             background-color: #0b0e14;
@@ -14,135 +14,186 @@
             font-size: 13px;
         }
         h2 { color: #ff9800; font-size: 14px; margin: 0 0 10px 0; border-bottom: 2px solid #2e3b4e; padding-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .status-box { background: rgba(0,0,0,0.4); border: 1px solid #2e3b4e; padding: 10px; border-radius: 4px; font-size: 11px; color: #7a8b9e; margin-bottom: 12px; line-height: 1.4; }
-        .btn-group { display: flex; gap: 8px; margin-bottom: 15px; }
-        .btn { background-color: #ff9800; color: #000; border: none; padding: 11px; font-weight: bold; flex: 1; cursor: pointer; border-radius: 4px; text-transform: uppercase; font-size: 11px; box-shadow: 0 2px 4px rgba(0,0,0,0.3); }
-        .btn:hover { background-color: #e08600; }
-        .btn-secondary { background-color: #2e3b4e; color: #fff; }
-        .btn-secondary:hover { background-color: #3d4f68; }
-        .tab-section { background: #141b24; border: 1px solid #2e3b4e; border-radius: 4px; padding: 10px; margin-top: 10px; }
-        .tab-title { font-weight: bold; color: #ff9800; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 4px; margin-bottom: 8px; font-size: 12px; display: flex; justify-content: space-between; }
-        .tab-number { color: #7a8b9e; font-size: 11px; font-weight: normal; }
-        .item-entry { display: flex; justify-content: space-between; padding: 5px 0; font-size: 12px; border-bottom: 1px solid rgba(255,255,255,0.02); }
-        .item-name { color: #fff; font-weight: 500; }
-        .item-desc { color: #a3b8cc; font-size: 11px; text-align: right; }
-        .trash-text { color: #fca5a5; }
+        .instruction-text { color: #7a8b9e; font-size: 11px; margin-bottom: 12px; line-height: 1.4; }
+        
+        /* Tab Selectors */
+        .tab-menu {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+            margin-bottom: 15px;
+        }
+        .tab-btn {
+            background-color: #141b24;
+            border: 1px solid #2e3b4e;
+            color: #a3b8cc;
+            padding: 8px 4px;
+            font-size: 11px;
+            cursor: pointer;
+            border-radius: 4px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .tab-btn:hover { border-color: #ff9800; color: #fff; }
+        .tab-btn.active { background-color: #ff9800; color: #000; border-color: #ff9800; }
+
+        /* Blueprint Layout Display */
+        .blueprint-container {
+            background: #141b24;
+            border: 1px solid #2e3b4e;
+            border-radius: 4px;
+            padding: 12px;
+        }
+        .blueprint-title {
+            color: #ff9800;
+            font-weight: bold;
+            font-size: 13px;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+        }
+        .blueprint-subtitle {
+            color: #7a8b9e;
+            font-size: 11px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 4px;
+        }
+
+        .row-guide {
+            margin-bottom: 12px;
+            background: rgba(0,0,0,0.2);
+            padding: 8px;
+            border-left: 3px solid #ff9800;
+            border-radius: 0 4px 4px 0;
+        }
+        .row-num {
+            font-size: 11px;
+            font-weight: bold;
+            color: #ff9800;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+        }
+        .row-items {
+            color: #ffffff;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+        .row-tip {
+            font-size: 11px;
+            color: #a3b8cc;
+            margin-top: 3px;
+            font-style: italic;
+        }
+        .trash { border-left-color: #fca5a5; }
+        .trash .row-num { color: #fca5a5; }
     </style>
 </head>
 <body>
 
-    <h2>🏛️ RS3 Complete Tab Setup Guide</h2>
-    
-    <div class="status-box" id="status">
-        <strong>System Status:</strong> Initializing Alt1 Context...
+    <h2>🏛️ Row-by-Row Organizer</h2>
+    <div class="instruction-text">
+        Click a tab button below to see exactly which items belong on rows 1, 2, and 3 of that specific in-game tab.
     </div>
 
-    <div class="btn-group">
-        <button class="btn" id="scan-button">📸 Auto-Scan</button>
-        <button class="btn btn-secondary" id="manual-button">📋 Load Tab Blueprints</button>
+    <!-- Quick Sidebar Selector Grid -->
+    <div class="tab-menu">
+        <button class="tab-btn active" onclick="switchTab(2)">Tab 2: Gear</button>
+        <button class="tab-btn" onclick="switchTab(3)">Tab 3: PvM Pots</button>
+        <button class="tab-btn" onclick="switchTab(4)">Tab 4: Runes</button>
+        <button class="tab-btn" onclick="switchTab(5)">Tab 5: Skill</button>
+        <button class="tab-btn" onclick="switchTab(6)">Tab 6: Farm</button>
+        <button class="tab-btn" onclick="switchTab(9)">Tab 9: Junk</button>
     </div>
 
-    <div id="results">
-        <p style="text-align: center; color: #7a8b9e; padding-top: 20px;">
-            Click one of the buttons above to generate your organization guide.
-        </p>
+    <!-- Dynamic Display Panel -->
+    <div class="blueprint-container" id="blueprint-display">
+        <!-- Javascript dynamically injects the chosen tab rows here -->
     </div>
 
     <script>
-        const status = document.getElementById('status');
-        const scanBtn = document.getElementById('scan-button');
-        const manualBtn = document.getElementById('manual-button');
-        const results = document.getElementById('results');
-
-        // High-Efficiency RS3 Bank Tab Framework
-        const standardRS3Tabs = [
-            { number: "Tab 1 (Main)", name: "🗑️ The Dump Tab", items: [{ name: "Keep Completely Empty", desc: "Unload inventory here after a Slayer/Boss run, then clear it later." }] },
-            { number: "Tab 2", name: "⚔️ Combat, Armor & Weapons", items: [{ name: "Weapons & Shields", desc: "Top rows: Scythes, Bows, Staffs, Defenders" }, { name: "Armor Sets", desc: "Group vertically (Helm, Chest, Legs, Boots, Gloves)" }] },
-            { number: "Tab 3", name: "🧪 Herblore, Food & Pocket", items: [{ name: "Brews & Restores", desc: "Keep 6-dose flasks and 4-dose potions separated" }, { name: "High-Tier Food", desc: "Sailfish, Rocktail, Jellyfish, and Blue blubber" }] },
-            { number: "Tab 4", name: "🏃 Daily Runs & Teleports", items: [{ name: "Teleport Jewelry", desc: "Games necklaces, Rings of dueling, Amulets of glory" }, { name: "Runes & Vis Wax", desc: "Pouch runes, elemental runes, teleport tabs" }] },
-            { number: "Tab 5", name: "🪵 Skilling Resources", items: [{ name: "Mining & Smithing", desc: "Ores, Smelted Bars, Animica, Charcoal" }, { name: "Woodcutting & Fletching", desc: "Logs, Bowstrings, Shafts, Feathers" }] },
-            { number: "Tab 6", name: "🧑‍🌾 Farming & Gathering", items: [{ name: "Seeds & Saplings", desc: "Note: Move basic seeds to the Manor Farm Seed Vault!" }, { name: "Herbs & Clean Materials", desc: "Grimy herbs, clean herbs, and secondary ingredients" }] },
-            { number: "Tab 7", name: "📜 Clues, Arch & Artifacts", items: [{ name: "Clue Scrolls & Caskets", desc: "Charos Clue Carrier, active clues, costume skips" }, { name: "Archaeology Materials", desc: "Damaged artifacts and screening soils" }] },
-            { number: "Tab 8", name: "⚙️ Invention & Wardrobe", items: [{ name: "Augmented Gear Patches", desc: "Divine charges, item siphons, weapon/armor gizmos" }] },
-            { number: "Tab 9", name: "❌ Trash & Diango Cleanup", items: [{ name: "Holiday Rewards", desc: "<span class='trash-text'>Destroy safely! Reclaim from Diango anytime.</span>" }, { name: "Finished Quest Items", desc: "<span class='trash-text'>Drop or destroy if the quest log shows complete.</span>" }] }
-        ];
-
-        // Safe Alt1 Registration Request Check Loop
-        function initAlt1() {
-            if (window.alt1) {
-                // This checks if Alt1 actively permits pixel reads
-                if (window.alt1.permissionPixel) {
-                    status.innerHTML = "<strong>System Status:</strong> ✔ App Permitted.<br>Ready to capture screen data structures.";
-                } else {
-                    status.innerHTML = "<strong>System Status:</strong> ⚠️ Permission Pending.<br>Click 'Auto-Scan' below to prompt Alt1 for screen access rights.";
-                    // Actively ask the desktop client layer to request permissions now
-                    window.alt1.requestPermission("pixel");
-                }
-            } else {
-                status.innerHTML = "<strong>System Status:</strong> Web Browser Mode.<br>Use Manual Mode or open inside the Alt1 Toolkit app browser.";
+        // High-efficiency row arrangements for RS3 banking grids
+        const rowData = {
+            2: {
+                title: "⚔️ Tab 2: Combat & Armor Layout",
+                sub: "Organize items vertically so you can scan full sets at a glance.",
+                rows: [
+                    { label: "Row 1 (Weapons)", items: "Noxious Weapons, Masterwork/Sirenic pieces, Shields, Defenders, T90/T95 mainhands.", tip: "Keep your highest-tier active weapons in slots 1-5." },
+                    { label: "Row 2 (Melee & Range Armor)", items: "Custom-Fit Trimmed Masterwork sets, Elite Sirenic gear, Capes of Accomplishment.", tip: "Line up Helm, Body, and Legs vertically under the weapons." },
+                    { label: "Row 3 (Mage & Necro Gear)", items: "Elite Tectonic sets, First Necromancer robes, Omniguard, Soulbound Lantern.", tip: "Keep combat rings (Death, Asylum) and necklaces at the end of Row 3." }
+                ]
+            },
+            3: {
+                title: "🧪 Tab 3: Herblore & Food Layout",
+                sub: "Always use Placeholder Locks so empty flask slots don't disappear!",
+                rows: [
+                    { label: "Row 1 (Overloads)", items: "Elder Overload Flasks (6), Overload (4), Aggroverload Flasks, Weapon Poison+++.", tip: "Put your 6-dose variants on the left, and lower doses next to them." },
+                    { label: "Row 2 (Stat Restores)", items: "Saradomin Brew Flasks (6), Super Restore Flasks (6), Adrenaline Renewals.", tip: "Pair a row of Brews directly above or below your food source." },
+                    { label: "Row 3 (Food & Pocket)", items: "Sailfish, Blue Blubber Jellyfish, Rocktails, Scrimshaws, God Books.", tip: "Keep solid food and combo food (jellyfish) together for fast clicking." }
+                ]
+            },
+            4: {
+                title: "🏃 Tab 4: Daily Runs & Teleports",
+                sub: "Your go-to tab for daily tasks and map mobility.",
+                rows: [
+                    { label: "Row 1 (Runes & Pouches)", items: "Rune Pouches, Air, Fire, Water, Earth, Blood, Soul, Death, and Astral runes.", tip: "Keep standard elemental runes grouped near your primary teleport jewelry." },
+                    { label: "Row 2 (Teleport Jewelry)", items: "Passage of the Abyss, Games Necklaces, Rings of Dueling, Amulets of Glory.", tip: "Put completely discharged jewelry at the far right of the row." },
+                    { label: "Row 3 (Dailies)", items: "Wicked Hood, Vis Wax, Teleport Tablets, Portable Skill Stations.", tip: "Keep your daily skull scepters or wilderness event tokens here." }
+                ]
+            },
+            5: {
+                title: "🪵 Tab 5: Skilling Resources",
+                sub: "Group raw materials with their matching processing items.",
+                rows: [
+                    { label: "Row 1 (Mining & Smithing)", items: "Light/Dark Animica, Runite Ore, Elder Rune Bars, Stone Spirits.", tip: "Put stone spirits directly below or next to their matching ore type." },
+                    { label: "Row 2 (Woodcutting & Fletching)", items: "Elder Logs, Magic Logs, Yew Logs, Bowstrings, Headless Arrows, Feathers.", tip: "Keep arrows, shafts, and tips lined up in order of production step." },
+                    { label: "Row 3 (Crafting & Invention)", items: "Uncut Onyx, Diamonds, Dragonhides, Resilient Components, Divine Charges.", tip: "Keep empty item siphons and gizmos on the far right." }
+                ]
+            },
+            6: {
+                title: "🧑‍🌾 Tab 6: Farming & Herbs",
+                sub: "Clean herbs out regularly to save inventory grids.",
+                rows: [
+                    { label: "Row 1 (Grimy Herbs)", items: "Grimy Avantoe, Grimy Ranarr, Grimy Toadflax, Grimy Lantadyme.", tip: "Organize alphabetically or by herblore skill level." },
+                    { label: "Row 2 (Clean Herbs)", items: "Clean Avantoe, Clean Ranarr, Clean Torstol, Clean Fellstalk.", tip: "Place clean variants directly under their grimy versions." },
+                    { label: "Row 3 (Secondaries)", items: "Crushed Nest, Eye of Newt, Wine of Zamorak, Limpwurt Roots.", tip: "Keep common potion ingredients matched with the herbs above." }
+                ]
+            },
+            9: {
+                title: "🗑️ Tab 9: Junk & Toy Box Cleanup",
+                sub: "These items are wasting space. Run through this row immediately!",
+                isTrash: true,
+                rows: [
+                    { label: "Row 1 (Holiday Clutter)", items: "Old Easter drops, Christmas cosmetics, Hati cosmetic claws.", tip: "Destroy them! Right-click -> Destroy. You can fetch them back from Diango for free." },
+                    { label: "Row 2 (Quest Leftovers)", items: "Strange glowing keys, dynamic quest scrolls, ancient notes.", tip: "Check your quest list. If the quest is finished, delete these or add them to May's Quest Caravan." },
+                    { label: "Row 3 (Random Tokens)", items: "Low-tier treasure hunter tokens, outdated promotional keys.", tip: "Right-click and select 'Redeem' or turn them into oddments immediately." }
+                ]
             }
-        }
+        };
 
-        // Auto Scan Engine Logic
-        scanBtn.addEventListener('click', function() {
-            if (window.alt1) {
-                // Explicitly request permissions on button click action
-                window.alt1.requestPermission("pixel");
-                
-                try {
-                    let img = window.alt1.bindRegion(0, 0, window.alt1.rsWidth, window.alt1.rsHeight);
-                    if (img) {
-                        status.innerHTML = `<span style='color:#22c55e;'>✔ Auto-Scan Active at ${window.alt1.rsWidth}x${window.alt1.rsHeight}</span>`;
-                        renderTabs();
-                    } else {
-                        status.innerHTML = `<span style='color:#7a8b9e;'>Notice: Displaying blueprints. Verify your Windows Display scaling and RS3 interface scaling are both at 100%.</span>`;
-                        renderTabs();
-                    }
-                } catch(e) {
-                    status.innerHTML = `<span style='color:#7a8b9e;'>Notice: Displaying blueprints. Ensure Alt1 has desktop capture toggled on.</span>`;
-                    renderTemplates();
-                }
-            } else {
-                status.innerHTML = "Viewing in standard web browser. Blueprint guide loaded:";
-                renderTabs();
-            }
-        });
+        function switchTab(tabId) {
+            // Update active styling button states
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
 
-        // Manual Reference Button Logic
-        manualBtn.addEventListener('click', function() {
-            status.innerHTML = "<strong>Mode:</strong> Blueprint Guide. Use these 9 tab definitions to sort your bank in RS3.";
-            renderTabs();
-        });
+            const data = rowData[tabId];
+            const display = document.getElementById('blueprint-display');
+            
+            let html = `
+                <div class="blueprint-title">${data.title}</div>
+                <div class="blueprint-subtitle">${data.sub}</div>
+            `;
 
-        function renderTabs() {
-            results.innerHTML = "";
-            standardRS3Tabs.forEach(section => {
-                const div = document.createElement('div');
-                div.classList.add('tab-section');
-                
-                let innerHTML = `
-                    <div class="tab-title">
-                        <span>${section.name}</span>
-                        <span class="tab-number">${section.number}</span>
+            data.rows.forEach(row => {
+                const trashClass = data.isTrash ? "trash" : "";
+                html += `
+                    <div class="row-guide ${trashClass}">
+                        <div class="row-num">${row.label}</div>
+                        <div class="row-items">${row.items}</div>
+                        <div class="row-tip">${row.tip}</div>
                     </div>
                 `;
-                
-                section.items.forEach(item => {
-                    innerHTML += `
-                        <div class="item-entry">
-                            <span class="item-name">${item.name}</span>
-                            <span class="item-desc">${item.desc}</span>
-                        </div>
-                    `;
-                });
-                
-                div.innerHTML = innerHTML;
-                results.appendChild(div);
             });
+
+            display.innerHTML = html;
         }
 
-        // Run initialization check immediately
-        setTimeout(initAlt1, 500);
-    </script>
-</body>
-</html>

@@ -1,0 +1,9 @@
+{
+	"name": "Live Bank Sorter",
+	"description": "Checks visible bank items and creates layout sorting task checklists.",
+	"navurl": "index.html",
+	"icon": "",
+	"permissions": [
+		"pixel"
+	]
+}

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live Bank Companion</title>
+    <title>RS3 Ultimate Bank Guide</title>
     <style>
         body {
             background-color: #0b0e14;
@@ -13,65 +13,120 @@
             padding: 12px;
             font-size: 13px;
         }
-        h2 { color: #ff9800; font-size: 14px; margin: 0 0 10px 0; border-bottom: 2px solid #2e3b4e; padding-bottom: 6px; }
+        h2 { color: #ff9800; font-size: 14px; margin: 0 0 10px 0; border-bottom: 2px solid #2e3b4e; padding-bottom: 6px; text-transform: uppercase; }
         .status-box { background: rgba(0,0,0,0.4); border: 1px solid #2e3b4e; padding: 10px; border-radius: 4px; font-size: 11px; color: #7a8b9e; margin-bottom: 12px; }
-        .btn { background-color: #ff9800; color: #000; border: none; padding: 12px; font-weight: bold; width: 100%; cursor: pointer; border-radius: 4px; text-transform: uppercase; }
+        .btn-group { display: flex; gap: 8px; margin-bottom: 15px; }
+        .btn { background-color: #ff9800; color: #000; border: none; padding: 10px; font-weight: bold; flex: 1; cursor: pointer; border-radius: 4px; text-transform: uppercase; font-size: 11px; }
         .btn:hover { background-color: #e08600; }
-        .tab-section { background: #141b24; border: 1px solid #2e3b4e; border-radius: 4px; margin-top: 15px; padding: 10px; }
-        .tab-title { font-weight: bold; color: #ff9800; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 4px; margin-bottom: 8px; }
-        .item-entry { display: flex; justify-content: space-between; padding: 4px 0; font-size: 12px; border-bottom: 1px solid rgba(255,255,255,0.02); }
+        .btn-secondary { background-color: #2e3b4e; color: #fff; }
+        .btn-secondary:hover { background-color: #3d4f68; }
+        .tab-section { background: #141b24; border: 1px solid #2e3b4e; border-radius: 4px; padding: 10px; margin-top: 10px; }
+        .tab-title { font-weight: bold; color: #ff9800; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 4px; margin-bottom: 8px; font-size: 12px; }
+        .item-entry { display: flex; justify-content: space-between; padding: 5px 0; font-size: 12px; border-bottom: 1px solid rgba(255,255,255,0.02); }
+        .item-name { color: #fff; }
+        .item-desc { color: #a3b8cc; font-size: 11px; }
     </style>
 </head>
 <body>
 
-    <h2>🏛️ Live Bank Tab Sorter</h2>
+    <h2>🏛️ Universal Bank Organizer</h2>
     
     <div class="status-box" id="status">
-        <strong>System Status:</strong> Click Scan to connect.
+        <strong>System Status:</strong> Ready.<br>
+        Use Auto-Scan if permissions are fixed, or click Manual Mode to instantly load templates.
     </div>
 
-    <button class="btn" id="scan-button">Scan Current Screen</button>
+    <div class="btn-group">
+        <button class="btn" id="scan-button">📸 Auto-Scan</button>
+        <button class="btn btn-secondary" id="manual-button">📋 Manual Layouts</button>
+    </div>
 
-    <div id="results"></div>
+    <div id="results">
+        <p style="text-align: center; color: #7a8b9e; padding-top: 20px;">
+            Select a mode above to display your bank layout guides.
+        </p>
+    </div>
 
     <script>
         const status = document.getElementById('status');
-        const btn = document.getElementById('scan-button');
+        const scanBtn = document.getElementById('scan-button');
+        const manualBtn = document.getElementById('manual-button');
         const results = document.getElementById('results');
 
-        btn.addEventListener('click', function() {
+        // Layout profile templates database
+        const layoutTemplates = [
+            {
+                tabName: "Tab 1: Combat & PvM Supplies",
+                items: [
+                    { name: "⚔️ Power Weapons", desc: "Top rows: Scythe, Bows, Staffs" },
+                    { name: "🛡️ Armor Sets", desc: "Grouped vertically by style (Melee/Range/Mage)" },
+                    { name: "🧪 Combat Potions", desc: "Keep Overloads and Brews side-by-side" }
+                ]
+            },
+            {
+                tabName: "Tab 2: Skilling & Resources",
+                items: [
+                    { name: "🪵 Logs & Planks", desc: "Sort lowest level to highest level" },
+                    { name: "🪨 Ores & Bars", desc: "Place next to matching Smithing spirits" },
+                    { name: "🌿 Clean Herbs", desc: "Organize alphabetically or by level requirement" }
+                ]
+            },
+            {
+                tabName: "Tab 3: Clutter Cleanup (Trash)",
+                items: [
+                    { name: "🗑️ Holiday Items", desc: "Destroy immediately (Safe reclaim from Diango)" },
+                    { name: "🔑 Old Quest Keys", desc: "Put on Steel Key Ring or destroy if quest is complete" }
+                ]
+            }
+        ];
+
+        // Auto Scan Engine Logic
+        scanBtn.addEventListener('click', function() {
             if (window.alt1) {
                 try {
-                    // Test reading the game client boundaries
                     let img = window.alt1.bindRegion(0, 0, window.alt1.rsWidth, window.alt1.rsHeight);
-                    
                     if (img) {
-                        status.innerHTML = `<span style='color:#22c55e;'>✔ Success! Connected at ${window.alt1.rsWidth}x${window.alt1.rsHeight}</span>`;
-                        showLayoutChecklist();
+                        status.innerHTML = `<span style='color:#22c55e;'>✔ Auto-Scan Success! Client detected at ${window.alt1.rsWidth}x${window.alt1.rsHeight}</span>`;
+                        renderTemplates();
                     } else {
-                        status.innerHTML = `<span style='color:#fca5a5;'>❌ Screen Grab Blocked.<br>Change Windows text scaling and RS3 Interface scaling to exactly 100%.</span>`;
+                        status.innerHTML = `<span style='color:#fca5a5;'>❌ Capture Blocked. Your Alt1 app permissions or Windows Display Scaling (needs 100%) are preventing screen reading. Using fallback mode.</span>`;
+                        renderTemplates();
                     }
                 } catch(e) {
-                    status.innerHTML = `<span style='color:#fca5a5;'>❌ Access Denied.<br>Go to Alt1 Settings -> Capture -> Switch mode to "Desktop Capture".</span>`;
+                    status.innerHTML = `<span style='color:#fca5a5;'>❌ App Screen Permissions Error. Switch Alt1 Capture Mode to 'Desktop Capture'. Using fallback mode.</span>`;
+                    renderTemplates();
                 }
             } else {
-                status.innerHTML = "Viewing via web browser. Simulating sample layout below.";
-                showLayoutChecklist();
+                status.innerHTML = "Viewing in standard web browser. Displaying layout models:";
+                renderTemplates();
             }
         });
 
-        function showLayoutChecklist() {
-            results.innerHTML = `
-                <div class="tab-section">
-                    <div class="tab-title">Tab 1: Combat Supplies</div>
-                    <div class="item-entry"><span>⚔️ Noxious Scythe</span><span style="color:#7a8b9e">Slot 1</span></div>
-                    <div class="item-entry"><span>🧪 Overload (4)</span><span style="color:#7a8b9e">Slot 2</span></div>
-                </div>
-                <div class="tab-section">
-                    <div class="tab-title">Tab 2: Resources & Materials</div>
-                    <div class="item-entry"><span>🪵 Elder Logs</span><span style="color:#7a8b9e">Slot 1</span></div>
-                </div>
-            `;
+        // Manual Fallback Button Logic
+        manualBtn.addEventListener('click', function() {
+            status.innerHTML = "<strong>Mode:</strong> Manual Reference Mode. Cross-reference this list with your in-game tabs.";
+            renderTemplates();
+        });
+
+        function renderTemplates() {
+            results.innerHTML = "";
+            layoutTemplates.forEach(section => {
+                const div = document.createElement('div');
+                div.classList.add('tab-section');
+                
+                let innerHTML = `<div class="tab-title">${section.tabName}</div>`;
+                section.items.forEach(item => {
+                    innerHTML += `
+                        <div class="item-entry">
+                            <span class="item-name">${item.name}</span>
+                            <span class="item-desc">${item.desc}</span>
+                        </div>
+                    `;
+                });
+                
+                div.innerHTML = innerHTML;
+                results.appendChild(div);
+            });
         }
     </script>
 </body>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RS3 Ultimate Row Organizer</title>
+    <title>RS3 Permanent Bank Organizer Reference</title>
     <style>
         body {
             background-color: #0b0e14;
@@ -12,55 +12,35 @@
             margin: 0;
             padding: 12px;
             font-size: 13px;
+            line-height: 1.4;
         }
-        h2 { color: #ff9800; font-size: 14px; margin: 0 0 10px 0; border-bottom: 2px solid #2e3b4e; padding-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .instruction-text { color: #7a8b9e; font-size: 11px; margin-bottom: 12px; line-height: 1.4; }
-        
-        /* Tab Selectors */
-        .tab-menu {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 6px;
-            margin-bottom: 15px;
+        h2 { 
+            color: #ff9800; 
+            font-size: 15px; 
+            text-transform: uppercase; 
+            margin: 0 0 15px 0; 
+            border-bottom: 2px solid #2e3b4e; 
+            padding-bottom: 6px; 
+            letter-spacing: 0.5px; 
         }
-        .tab-btn {
-            background-color: #141b24;
-            border: 1px solid #2e3b4e;
-            color: #a3b8cc;
-            padding: 8px 4px;
-            font-size: 11px;
-            cursor: pointer;
-            border-radius: 4px;
-            text-align: center;
-            font-weight: bold;
+        .tab-section { 
+            background: #141b24; 
+            border: 1px solid #2e3b4e; 
+            border-radius: 4px; 
+            padding: 12px; 
+            margin-bottom: 16px; 
         }
-        .tab-btn:hover { border-color: #ff9800; color: #fff; }
-        .tab-btn.active { background-color: #ff9800; color: #000; border-color: #ff9800; }
-
-        /* Blueprint Layout Display */
-        .blueprint-container {
-            background: #141b24;
-            border: 1px solid #2e3b4e;
-            border-radius: 4px;
-            padding: 12px;
-        }
-        .blueprint-title {
-            color: #ff9800;
-            font-weight: bold;
-            font-size: 13px;
-            margin-bottom: 4px;
+        .tab-title { 
+            font-weight: bold; 
+            color: #ff9800; 
+            border-bottom: 1px solid rgba(255,255,255,0.1); 
+            padding-bottom: 6px; 
+            margin-bottom: 10px; 
+            font-size: 13px; 
             text-transform: uppercase;
         }
-        .blueprint-subtitle {
-            color: #7a8b9e;
-            font-size: 11px;
-            margin-bottom: 12px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            padding-bottom: 4px;
-        }
-
         .row-guide {
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             background: rgba(0,0,0,0.2);
             padding: 8px;
             border-left: 3px solid #ff9800;
@@ -76,7 +56,6 @@
         .row-items {
             color: #ffffff;
             font-size: 12px;
-            line-height: 1.4;
         }
         .row-tip {
             font-size: 11px;
@@ -90,110 +69,67 @@
 </head>
 <body>
 
-    <h2>🏛️ Row-by-Row Organizer</h2>
-    <div class="instruction-text">
-        Click a tab button below to see exactly which items belong on rows 1, 2, and 3 of that specific in-game tab.
+    <h2>🏛️ RS3 Master Row Guide</h2>
+
+    <!-- TAB 2 -->
+    <div class="tab-section">
+        <div class="tab-title">⚔️ Tab 2: Combat & Armor Layout</div>
+        <div class="row-guide">
+            <div class="row-num">Row 1 (Weapons)</div>
+            <div class="row-items">Noxious Weapons, Sirenic/Masterwork gear pieces, Shields, Defenders, T90/T95 items.</div>
+            <div class="row-tip">Keep your highest-tier active weapons in slots 1 through 5.</div>
+        </div>
+        <div class="row-guide">
+            <div class="row-num">Row 2 (Armor Sets)</div>
+            <div class="row-items">Custom-Fit Trimmed Masterwork sets, Elite Sirenic gear, Capes of Accomplishment.</div>
+            <div class="row-tip">Line up Helm, Body, and Legs vertically under your weapons.</div>
+        </div>
     </div>
 
-    <!-- Quick Sidebar Selector Grid -->
-    <div class="tab-menu">
-        <button class="tab-btn active" onclick="switchTab(2)">Tab 2: Gear</button>
-        <button class="tab-btn" onclick="switchTab(3)">Tab 3: PvM Pots</button>
-        <button class="tab-btn" onclick="switchTab(4)">Tab 4: Runes</button>
-        <button class="tab-btn" onclick="switchTab(5)">Tab 5: Skill</button>
-        <button class="tab-btn" onclick="switchTab(6)">Tab 6: Farm</button>
-        <button class="tab-btn" onclick="switchTab(9)">Tab 9: Junk</button>
+    <!-- TAB 3 -->
+    <div class="tab-section">
+        <div class="tab-title">🧪 Tab 3: Herblore & Food Layout</div>
+        <div class="row-guide">
+            <div class="row-num">Row 1 (Overloads)</div>
+            <div class="row-items">Elder Overload Flasks (6), Overload (4), Aggroverload Flasks, Weapon Poison+++.</div>
+            <div class="row-tip">Put your 6-dose variants on the left, and lower doses right next to them.</div>
+        </div>
+        <div class="row-guide">
+            <div class="row-num">Row 2 (Restores & Food)</div>
+            <div class="row-items">Saradomin Brew Flasks (6), Super Restore Flasks (6), Sailfish, Blue Blubber Jellyfish.</div>
+            <div class="row-tip">Pair a row of Brews directly above or below your primary food sources.</div>
+        </div>
     </div>
 
-    <!-- Dynamic Display Panel -->
-    <div class="blueprint-container" id="blueprint-display">
-        <!-- Javascript dynamically injects the chosen tab rows here -->
+    <!-- TAB 4 -->
+    <div class="tab-section">
+        <div class="tab-title">🏃 Tab 4: Daily Runs & Runes</div>
+        <div class="row-guide">
+            <div class="row-num">Row 1 (Runes & Pouches)</div>
+            <div class="row-items">Rune Pouches, Air, Fire, Water, Earth, Blood, Soul, Death, and Astral runes.</div>
+            <div class="row-tip">Keep standard elemental runes grouped near your primary teleport jewelry.</div>
+        </div>
+        <div class="row-guide">
+            <div class="row-num">Row 2 (Teleports & Dailies)</div>
+            <div class="row-items">Passage of the Abyss, Wicked Hood, Vis Wax, Teleport Tablets.</div>
+            <div class="row-tip">Keep your daily teleport triggers unified in one tight group.</div>
+        </div>
     </div>
 
-    <script>
-        // High-efficiency row arrangements for RS3 banking grids
-        const rowData = {
-            2: {
-                title: "⚔️ Tab 2: Combat & Armor Layout",
-                sub: "Organize items vertically so you can scan full sets at a glance.",
-                rows: [
-                    { label: "Row 1 (Weapons)", items: "Noxious Weapons, Masterwork/Sirenic pieces, Shields, Defenders, T90/T95 mainhands.", tip: "Keep your highest-tier active weapons in slots 1-5." },
-                    { label: "Row 2 (Melee & Range Armor)", items: "Custom-Fit Trimmed Masterwork sets, Elite Sirenic gear, Capes of Accomplishment.", tip: "Line up Helm, Body, and Legs vertically under the weapons." },
-                    { label: "Row 3 (Mage & Necro Gear)", items: "Elite Tectonic sets, First Necromancer robes, Omniguard, Soulbound Lantern.", tip: "Keep combat rings (Death, Asylum) and necklaces at the end of Row 3." }
-                ]
-            },
-            3: {
-                title: "🧪 Tab 3: Herblore & Food Layout",
-                sub: "Always use Placeholder Locks so empty flask slots don't disappear!",
-                rows: [
-                    { label: "Row 1 (Overloads)", items: "Elder Overload Flasks (6), Overload (4), Aggroverload Flasks, Weapon Poison+++.", tip: "Put your 6-dose variants on the left, and lower doses next to them." },
-                    { label: "Row 2 (Stat Restores)", items: "Saradomin Brew Flasks (6), Super Restore Flasks (6), Adrenaline Renewals.", tip: "Pair a row of Brews directly above or below your food source." },
-                    { label: "Row 3 (Food & Pocket)", items: "Sailfish, Blue Blubber Jellyfish, Rocktails, Scrimshaws, God Books.", tip: "Keep solid food and combo food (jellyfish) together for fast clicking." }
-                ]
-            },
-            4: {
-                title: "🏃 Tab 4: Daily Runs & Teleports",
-                sub: "Your go-to tab for daily tasks and map mobility.",
-                rows: [
-                    { label: "Row 1 (Runes & Pouches)", items: "Rune Pouches, Air, Fire, Water, Earth, Blood, Soul, Death, and Astral runes.", tip: "Keep standard elemental runes grouped near your primary teleport jewelry." },
-                    { label: "Row 2 (Teleport Jewelry)", items: "Passage of the Abyss, Games Necklaces, Rings of Dueling, Amulets of Glory.", tip: "Put completely discharged jewelry at the far right of the row." },
-                    { label: "Row 3 (Dailies)", items: "Wicked Hood, Vis Wax, Teleport Tablets, Portable Skill Stations.", tip: "Keep your daily skull scepters or wilderness event tokens here." }
-                ]
-            },
-            5: {
-                title: "🪵 Tab 5: Skilling Resources",
-                sub: "Group raw materials with their matching processing items.",
-                rows: [
-                    { label: "Row 1 (Mining & Smithing)", items: "Light/Dark Animica, Runite Ore, Elder Rune Bars, Stone Spirits.", tip: "Put stone spirits directly below or next to their matching ore type." },
-                    { label: "Row 2 (Woodcutting & Fletching)", items: "Elder Logs, Magic Logs, Yew Logs, Bowstrings, Headless Arrows, Feathers.", tip: "Keep arrows, shafts, and tips lined up in order of production step." },
-                    { label: "Row 3 (Crafting & Invention)", items: "Uncut Onyx, Diamonds, Dragonhides, Resilient Components, Divine Charges.", tip: "Keep empty item siphons and gizmos on the far right." }
-                ]
-            },
-            6: {
-                title: "🧑‍🌾 Tab 6: Farming & Herbs",
-                sub: "Clean herbs out regularly to save inventory grids.",
-                rows: [
-                    { label: "Row 1 (Grimy Herbs)", items: "Grimy Avantoe, Grimy Ranarr, Grimy Toadflax, Grimy Lantadyme.", tip: "Organize alphabetically or by herblore skill level." },
-                    { label: "Row 2 (Clean Herbs)", items: "Clean Avantoe, Clean Ranarr, Clean Torstol, Clean Fellstalk.", tip: "Place clean variants directly under their grimy versions." },
-                    { label: "Row 3 (Secondaries)", items: "Crushed Nest, Eye of Newt, Wine of Zamorak, Limpwurt Roots.", tip: "Keep common potion ingredients matched with the herbs above." }
-                ]
-            },
-            9: {
-                title: "🗑️ Tab 9: Junk & Toy Box Cleanup",
-                sub: "These items are wasting space. Run through this row immediately!",
-                isTrash: true,
-                rows: [
-                    { label: "Row 1 (Holiday Clutter)", items: "Old Easter drops, Christmas cosmetics, Hati cosmetic claws.", tip: "Destroy them! Right-click -> Destroy. You can fetch them back from Diango for free." },
-                    { label: "Row 2 (Quest Leftovers)", items: "Strange glowing keys, dynamic quest scrolls, ancient notes.", tip: "Check your quest list. If the quest is finished, delete these or add them to May's Quest Caravan." },
-                    { label: "Row 3 (Random Tokens)", items: "Low-tier treasure hunter tokens, outdated promotional keys.", tip: "Right-click and select 'Redeem' or turn them into oddments immediately." }
-                ]
-            }
-        };
+    <!-- TAB 9 -->
+    <div class="tab-section">
+        <div class="tab-title" style="color: #fca5a5;">🗑️ Tab 9: Junk & Toy Box Cleanup</div>
+        <div class="row-guide trash">
+            <div class="row-num">Row 1 (Holiday Clutter)</div>
+            <div class="row-items" style="color: #fca5a5;">Old Easter drops, Christmas cosmetics, Hati cosmetic claws.</div>
+            <div class="row-tip">Right-click and select "Destroy". You can fetch them back from Diango for free.</div>
+        </div>
+        <div class="row-guide trash">
+            <div class="row-num">Row 2 (Quest Leftovers)</div>
+            <div class="row-items" style="color: #fca5a5;">Strange keys, quest scrolls, old ancient readable notes.</div>
+            <div class="row-tip">If the quest is finished, delete these or deposit them to May's Quest Caravan.</div>
+        </div>
+    </div>
 
-        function switchTab(tabId) {
-            // Update active styling button states
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-
-            const data = rowData[tabId];
-            const display = document.getElementById('blueprint-display');
-            
-            let html = `
-                <div class="blueprint-title">${data.title}</div>
-                <div class="blueprint-subtitle">${data.sub}</div>
-            `;
-
-            data.rows.forEach(row => {
-                const trashClass = data.isTrash ? "trash" : "";
-                html += `
-                    <div class="row-guide ${trashClass}">
-                        <div class="row-num">${row.label}</div>
-                        <div class="row-items">${row.items}</div>
-                        <div class="row-tip">${row.tip}</div>
-                    </div>
-                `;
-            });
-
-            display.innerHTML = html;
-        }
-
+</body>
+</html>
